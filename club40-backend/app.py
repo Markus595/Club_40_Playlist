@@ -17,3 +17,6 @@ app.add_middleware(
 
 app.include_router(playlist_router, prefix="")
 
+@app.get("/")
+def root():
+    return {"status": "Backend läuft ✅"}
