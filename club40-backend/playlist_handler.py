@@ -38,11 +38,14 @@ def now_playing():
         return {"status": "no music playing"}
     if res.status_code != 200:
         raise HTTPException(status_code=res.status_code, detail="Fehler beim Abrufen")
-    item = res.json()["item"]
+    data = res.json()
+    item = data.get("item")
     return {
         "name": item["name"],
         "artist": item["artists"][0]["name"],
-        "image": item["album"]["images"][0]["url"] if item["album"]["images"] else None
+        "image": item["album"]["images"][0]["url"] if item["album"]["images"] else None,
+        "duration_ms": item["duration_ms"],
+        "progress_ms": data.get("progress_ms", 0)
     }
 
 @router.get("/up-next")
